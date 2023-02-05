@@ -2,4 +2,4 @@
 
 These files are for PSC2023
 
-Made by 0813jake
+Copyright ⓒ 2023 by 0813jake All Files cannot be used or copied without permission.
