@@ -1,0 +1,268 @@
+Variables:
+    {kill_co.%player%} = 0
+    {death_co.%player%} = 0
+    {kill_co_msg.%player%} = 0
+    {kill_co_msg_4.%player%} = 0
+    {kill_co_msg_9.%player%} = 0
+    {kill_co_100.%player%} = 0
+
+on death:
+    if victim is player:
+        add 1 to {death_co.%victim%}
+        add 1 to {kill_co.%attacker%}
+        set {kill_co_100.%victim%} to 0
+        broadcast "&7%attacker% killed %victim%"
+        wait 0.2 seconds
+        execute console command "effect give %victim% minecraft:resistance 5 100 true"
+        execute console command "effect give %victim% minecraft:weakness 5 100 true"
+
+command /kill_co [<string>] [<player>] [<integer>]:
+    trigger:
+        if player is op:
+            if arg-1 is not set:
+                message "&6/kill_co {add/remove/set/get} {player} {number}"     
+
+            if arg-1 is "add":
+                add arg-3 to {kill_co.%arg-2%}
+                message "&6Add %arg-3% Kills to %arg-2%"
+
+            if arg-1 is "remove":
+                subtract arg-3 from {kill_co.%arg-2%}
+                message "&6Remove %arg-3% Kills from %arg-2%"
+
+            if arg-1 is "set":
+                set {kill_co.%arg-2%} to arg-3 
+                message "&6Set %arg-3% Kills to %arg-2%"
+
+            if arg-1 is "get":
+                message "&6%arg-2%'s Kill is %{kill_co.%arg-2%}%"
+
+            if arg-1 is "reset":
+                message "All Player's Kill Count Reset Complete"
+                loop all players:
+                    set {kill_co.%loop-player%} to 0
+        else:
+            message "&cYou are not authorized to use this command."
+
+every 0.1 seconds:
+    loop all players:
+        if {death_co.%loop-player%} >= 1:
+            set {kill_co.%loop-player%} to 0
+            set {death_co.%loop-player%} to 0
+
+        if {kill_co.%loop-player%} = 4:
+            set {kill_co_msg_4.%loop-player%} to 1
+
+        if {kill_co.%loop-player%} = 5:
+            if {kill_co_msg_4.%loop-player%} is 1:
+                broadcast "&a%loop-player% &fKill Streak &e%{kill_co.%loop-player%}% &6>"
+                execute console command "effect give %loop-player% regeneration 3 0"
+                set {kill_co_msg_4.%loop-player%} to 0
+                add 5 to {coin.%loop-player%}
+
+        if {kill_co.%loop-player%} = 9:
+            set {kill_co_msg_9.%loop-player%} to 1
+
+        if {kill_co.%loop-player%} = 10:
+            if {kill_co_msg_9.%loop-player%} is 1:
+                broadcast "&a%loop-player% &fKill Streak &e%{kill_co.%loop-player%}% &6>"
+                execute console command "effect give %loop-player% regeneration 3 1"
+                set {kill_co_msg_9.%loop-player%} to 0
+                add 10 to {coin.%loop-player%}
+
+        if {kill_co.%loop-player%} = 14:
+            set {kill_co_msg_4.%loop-player%} to 1
+
+        if {kill_co.%loop-player%} = 15:
+            if {kill_co_msg_4.%loop-player%} is 1:
+                broadcast "&a%loop-player% &fKill Streak &e%{kill_co.%loop-player%}% &6>"
+                execute console command "effect give %loop-player% absorption 60 2"
+                set {kill_co_msg_4.%loop-player%} to 0
+                add 15 to {coin.%loop-player%}
+
+        if {kill_co.%loop-player%} = 19:
+            set {kill_co_msg_9.%loop-player%} to 1
+
+        if {kill_co.%loop-player%} = 20:
+            if {kill_co_msg_9.%loop-player%} is 1:
+                broadcast "&a%loop-player% &fKill Streak &e%{kill_co.%loop-player%}% &6>"
+                execute console command "effect give %loop-player% strength 10 0"
+                execute console command "effect give %loop-player% glowing 1000000 0"
+                send title "&6%loop-player%" with subtitle "&6Kill Streak 20" to players for 0.2 seconds
+                set {kill_co_msg_9.%loop-player%} to 0
+                add 20 to {coin.%loop-player%}
+
+        if {kill_co.%loop-player%} = 24:
+            set {kill_co_msg_4.%loop-player%} to 1
+
+        if {kill_co.%loop-player%} = 25:
+            if {kill_co_msg_4.%loop-player%} is 1:
+                broadcast "&a%loop-player% &fKill Streak &e%{kill_co.%loop-player%}% &6>"
+                execute console command "effect give %loop-player% regeneration 10 1"
+                set {kill_co_msg_4.%loop-player%} to 0
+                add 25 to {coin.%loop-player%}
+
+        if {kill_co.%loop-player%} = 29:
+            set {kill_co_msg_9.%loop-player%} to 1
+
+        if {kill_co.%loop-player%} = 30:
+            if {kill_co_msg_9.%loop-player%} is 1:
+                broadcast "&a%loop-player% &fKill Streak &e%{kill_co.%loop-player%}% &6>"
+                execute console command "effect give %loop-player% resistance 30 0"
+                send title "&6%loop-player%" with subtitle "&6Kill Streak 30" to players for 0.2 seconds
+                set {kill_co_msg_9.%loop-player%} to 0
+                add 30 to {coin.%loop-player%}
+
+        if {kill_co.%loop-player%} = 34:
+            set {kill_co_msg_4.%loop-player%} to 1
+
+        if {kill_co.%loop-player%} = 35:
+            if {kill_co_msg_4.%loop-player%} is 1:
+                broadcast "&a%loop-player% &fKill Streak &e%{kill_co.%loop-player%}% &6>"
+                execute console command "effect give %loop-player% instant_health 1 3"
+                set {kill_co_msg_4.%loop-player%} to 0
+                add 35 to {coin.%loop-player%}
+
+        if {kill_co.%loop-player%} = 39:
+            set {kill_co_msg_9.%loop-player%} to 1
+
+        if {kill_co.%loop-player%} = 40:
+            if {kill_co_msg_9.%loop-player%} is 1:
+                broadcast "&a%loop-player% &fKill Streak &e%{kill_co.%loop-player%}% &6>"
+                execute console command "effect give %loop-player% speed 240 1"
+                send title "&6%loop-player%" with subtitle "&6Kill Streak 40" to players for 0.2 seconds
+                set {kill_co_msg_9.%loop-player%} to 0
+                add 40 to {coin.%loop-player%}
+
+        if {kill_co.%loop-player%} = 44:
+            set {kill_co_msg_4.%loop-player%} to 1
+
+        if {kill_co.%loop-player%} = 45:
+            if {kill_co_msg_4.%loop-player%} is 1:
+                broadcast "&a%loop-player% &fKill Streak &e%{kill_co.%loop-player%}% &6>"
+                execute console command "effect give %loop-player% absorption 60 5"
+                set {kill_co_msg_4.%loop-player%} to 0
+                add 45 to {coin.%loop-player%}
+
+        if {kill_co.%loop-player%} = 49:
+            set {kill_co_msg_9.%loop-player%} to 1
+
+        if {kill_co.%loop-player%} = 50:
+            if {kill_co_msg_9.%loop-player%} is 1:
+                broadcast "&a%loop-player% &fKill Streak &e%{kill_co.%loop-player%}% &6>"
+                execute console command "effect give %loop-player% strength 60 1"
+                send title "&6%loop-player%" with subtitle "&6Kill Streak 50" to players for 0.2 seconds
+                set {kill_co_msg_9.%loop-player%} to 0
+                add 50 to {coin.%loop-player%}
+
+        if {kill_co.%loop-player%} = 54:
+            set {kill_co_msg_4.%loop-player%} to 1
+
+        if {kill_co.%loop-player%} = 55:
+            if {kill_co_msg_4.%loop-player%} is 1:
+                broadcast "&a%loop-player% &fKill Streak &e%{kill_co.%loop-player%}% &6>"
+                execute console command "effect give %loop-player% regeneration 120 2"
+                set {kill_co_msg_4.%loop-player%} to 0
+                add 55 to {coin.%loop-player%}
+
+        if {kill_co.%loop-player%} = 59:
+            set {kill_co_msg_9.%loop-player%} to 1
+
+        if {kill_co.%loop-player%} = 60:
+            if {kill_co_msg_9.%loop-player%} is 1:
+                broadcast "&a%loop-player% &fKill Streak &e%{kill_co.%loop-player%}% &6>"
+                execute console command "effect give %loop-player% fire_resistance 1000000 0"
+                send title "&6%loop-player%" with subtitle "&6Kill Streak 60" to players for 0.2 seconds
+                set {kill_co_msg_9.%loop-player%} to 0
+                add 60 to {coin.%loop-player%}
+
+        if {kill_co.%loop-player%} = 64:
+            set {kill_co_msg_4.%loop-player%} to 1
+
+        if {kill_co.%loop-player%} = 65:
+            if {kill_co_msg_4.%loop-player%} is 1:
+                broadcast "&a%loop-player% &fKill Streak &e%{kill_co.%loop-player%}% &6>"
+                execute console command "effect give %loop-player% instant_health 1 4"
+                set {kill_co_msg_4.%loop-player%} to 0
+                add 65 to {coin.%loop-player%}
+
+        if {kill_co.%loop-player%} = 69:
+            set {kill_co_msg_9.%loop-player%} to 1
+
+        if {kill_co.%loop-player%} = 70:
+            if {kill_co_msg_9.%loop-player%} is 1:
+                broadcast "&a%loop-player% &fKill Streak &e%{kill_co.%loop-player%}% &6>"
+                execute console command "effect give %loop-player% strength 600 0"
+                send title "&6%loop-player%" with subtitle "&6Kill Streak 70" to players for 0.2 seconds
+                set {kill_co_msg_9.%loop-player%} to 0
+                add 70 to {coin.%loop-player%}
+
+        if {kill_co.%loop-player%} = 74:
+            set {kill_co_msg_4.%loop-player%} to 1
+
+        if {kill_co.%loop-player%} = 75:
+            if {kill_co_msg_4.%loop-player%} is 1:
+                broadcast "&a%loop-player% &fKill Streak &e%{kill_co.%loop-player%}% &6>"
+                execute console command "effect give %loop-player% regeneration 1000000 0"
+                set {kill_co_msg_4.%loop-player%} to 0
+                add 75 to {coin.%loop-player%}
+
+        if {kill_co.%loop-player%} = 79:
+            set {kill_co_msg_9.%loop-player%} to 1
+
+        if {kill_co.%loop-player%} = 80:
+            if {kill_co_msg_9.%loop-player%} is 1:
+                broadcast "&a%loop-player% &fKill Streak &e%{kill_co.%loop-player%}% &6>"
+                execute console command "effect give %loop-player% strength 1000000 0"
+                send title "&6%loop-player%" with subtitle "&6Kill Streak 80" to players for 0.2 seconds
+                set {kill_co_msg_9.%loop-player%} to 0
+                add 80 to {coin.%loop-player%}
+
+        if {kill_co.%loop-player%} = 84:
+            set {kill_co_msg_4.%loop-player%} to 1
+
+        if {kill_co.%loop-player%} = 85:
+            if {kill_co_msg_4.%loop-player%} is 1:
+                broadcast "&a%loop-player% &fKill Streak &e%{kill_co.%loop-player%}% &6>"
+                execute console command "effect give %loop-player% resistance 1000000 0"
+                set {kill_co_msg_4.%loop-player%} to 0
+                add 85 to {coin.%loop-player%}
+
+        if {kill_co.%loop-player%} = 89:
+            set {kill_co_msg_9.%loop-player%} to 1
+
+        if {kill_co.%loop-player%} = 90:
+            if {kill_co_msg_9.%loop-player%} is 1:
+                broadcast "&a%loop-player% &fKill Streak &e%{kill_co.%loop-player%}% &6>"
+                execute console command "effect give %loop-player% absorption 120 6"
+                send title "&6%loop-player%" with subtitle "&6Kill Streak 90" to players for 0.2 seconds
+                set {kill_co_msg_9.%loop-player%} to 0
+                add 90 to {coin.%loop-player%}
+
+        if {kill_co.%loop-player%} = 94:
+            set {kill_co_msg_4.%loop-player%} to 1
+
+        if {kill_co.%loop-player%} = 95:
+            if {kill_co_msg_4.%loop-player%} is 1:
+                broadcast "&a%loop-player% &fKill Streak &e%{kill_co.%loop-player%}% &6>"
+                execute console command "effect give %loop-player% speed 1000000 0"
+                set {kill_co_msg_4.%loop-player%} to 0
+                add 95 to {coin.%loop-player%}
+
+        if {kill_co.%loop-player%} = 99:
+            set {kill_co_msg_9.%loop-player%} to 1
+
+        if {kill_co.%loop-player%} = 100:
+            if {kill_co_msg_9.%loop-player%} is 1:
+                broadcast "&a%loop-player% &fKill Streak &e%{kill_co.%loop-player%}% &6>"
+                execute console command "effect give %loop-player% health_boost 1000000 13"
+                execute console command "execute as %loop-player% at @s run particle minecraft:flame ~ ~ ~ 0 1 0 0.1 100"
+                execute console command "execute as %loop-player% at @s run particle minecraft:end_rod ~ ~ ~ 0 1 0 0.1 100"
+                execute console command "execute as @a at @s run playsound minecraft:ui.toast.challenge_complete master @s"
+                send title "&6%loop-player%" with subtitle "&4Kill Streak 100" to players for 0.2 seconds
+                set {kill_co_msg_9.%loop-player%} to 0
+                set {kill_co_100.%loop-player%} to 1
+                add 100 to {coin.%loop-player%}
+
+        if {kill_co_100.%loop-player%} = 1:
+            execute loop-player command "execute as %loop-player% at @s run particle minecraft:flame ~ ~2.5 ~ 0 0 0 0 5"
