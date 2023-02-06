@@ -1,0 +1,532 @@
+on command:
+    if player is not op:
+        if player is player:
+            cancel event
+
+command /out [<player>]:
+    trigger:
+        stop
+
+on swap hand items:
+    if player is sneaking:
+        cancel event
+        wait 0.2 seconds
+        open chest with 3 rows named "&0&l메뉴" to player
+        format slot 10 of player with diamond sword named "&f키트 선택" with lore "&a." to close then run [execute console command "kit %player%"]
+        format slot 13 of player with smooth quartz named "&3상점" with lore "&a." to close then run [execute console command "oneitem %player%"]
+        format slot 16 of player with emerald named "&eCoin : %{coin.%player%}%" with lore "&a." to close then run [execute console command "out %player%"]
+        stop
+
+command /menu [<player>]:
+    trigger:
+        wait 0.2 seconds
+        open chest with 3 rows named "&0&l메뉴" to arg-1
+        format slot 10 of arg-1 with diamond sword named "&f키트 선택" with lore "&a." to close then run [execute console command "kit %arg-1%"]
+        format slot 13 of arg-1 with smooth quartz named "&3상점" with lore "&a." to close then run [execute console command "oneitem %arg-1%"]
+        format slot 16 of arg-1 with emerald named "&eCoin : %{coin.%arg-1%}%" with lore "&a." to close then run [execute console command "out %arg-1%"]
+        stop
+
+command /kit [<player>]:
+    trigger:
+        wait 0.2 seconds
+        open chest with 1 rows named "&0&l키트 선택" to arg-1
+        format slot 0 of arg-1 with stone sword named "딜러" with lore "&a." to close then run [execute console command "sword %arg-1%"]
+        format slot 1 of arg-1 with bow named "서포터" with lore "&a." to close then run [execute console command "bow %arg-1%"]
+        format slot 2 of arg-1 with shield named "기타" with lore "&a." to close then run [execute console command "etc %arg-1%"]
+        format slot 7 of arg-1 with structure void named "뒤로가기" with lore "&a." to close then run [execute console command "menu %arg-1%"]
+        format slot 8 of arg-1 with barrier named "나가기" with lore "&a." to close then run [execute console command "out %arg-1%"]
+        stop
+
+command /oneitem [<player>]:
+    trigger:
+        wait 0.2 seconds
+        open chest with 1 rows named "&0&l상점" to arg-1
+        format slot 0 of arg-1 with iron sword named "근접 무기" with lore "&a." to close then run [execute console command "oneitem1 %arg-1%"]
+        format slot 1 of arg-1 with bow named "원거리 무기" with lore "&a." to close then run [execute console command "oneitem2 %arg-1%"]
+        format slot 2 of arg-1 with iron chestplate named "갑옷" with lore "&a." to close then run [execute console command "oneitem3 %arg-1%"]
+        format slot 3 of arg-1 with apple named "유틸리티" with lore "&a." to close then run [execute console command "oneitem4 %arg-1%"]
+        format slot 7 of arg-1 with structure void named "뒤로가기" with lore "&a." to close then run [execute console command "menu %arg-1%"]
+        format slot 8 of arg-1 with barrier named "나가기" with lore "&a." to close then run [execute console command "out %arg-1%"]
+        stop
+
+command /sword [<player>]:
+    trigger:
+        wait 0.2 seconds
+        open chest with 1 rows named "&0&l키트 선택 - Sword" to arg-1
+        format slot 0 of arg-1 with stone sword named "아머러" with lore "&a." to run [execute console command "sword1 %arg-1%"]
+        format slot 1 of arg-1 with iron sword named "전투광" with lore "&a." to run [execute console command "sword2 %arg-1%"]
+        format slot 2 of arg-1 with wooden sword named "검도" with lore "&a." to run [execute console command "sword3 %arg-1%"]
+        format slot 3 of arg-1 with golden sword named "기사" with lore "&a." to run [execute console command "sword4 %arg-1%"]
+        format slot 7 of arg-1 with structure void named "뒤로가기" with lore "&a." to close then run [execute console command "kit %arg-1%"]
+        format slot 8 of arg-1 with barrier named "나가기" with lore "&a." to close then run [execute console command "out %arg-1%"]
+        stop
+
+command /bow [<player>]:
+    trigger:
+        wait 0.2 seconds
+        open chest with 1 rows named "&0&l키트 선택 - Bow" to arg-1
+        format slot 0 of arg-1 with bow named "아처" with lore "&a." to run [execute console command "bow1 %arg-1%"]
+        format slot 1 of arg-1 with bow named "다재다능1" with lore "&a." to run [execute console command "bow2 %arg-1%"]
+        format slot 2 of arg-1 with crossbow named "다재다능2" with lore "&a." to run [execute console command "bow3 %arg-1%"]
+        format slot 3 of arg-1 with crossbow named "연사석궁" with lore "&a." to run [execute console command "bow4 %arg-1%"]
+        format slot 4 of arg-1 with crossbow named "미치광이" with lore "&a." to run [execute console command "bow5 %arg-1%"]
+        format slot 7 of arg-1 with structure void named "뒤로가기" with lore "&a." to close then run [execute console command "kit %arg-1%"]
+        format slot 8 of arg-1 with barrier named "나가기" with lore "&a." to close then run [execute console command "out %arg-1%"]
+        stop
+
+command /etc [<player>]:
+    trigger:
+        wait 0.2 seconds
+        open chest with 1 rows named "&0&l키트 선택 - Etc." to arg-1
+        format slot 0 of arg-1 with stick named "진압대" with lore "&a." to run [execute console command "etc1 %arg-1%"]
+        format slot 1 of arg-1 with stone axe named "나무꾼" with lore "&a." to run [execute console command "etc2 %arg-1%"]
+        format slot 2 of arg-1 with netherite axe named "엑스맨" with lore "&a." to run [execute console command "etc3 %arg-1%"]
+        format slot 3 of arg-1 with fishing rod named "낚싯꾼" with lore "&a." to run [execute console command "etc4 %arg-1%"]
+        format slot 7 of arg-1 with structure void named "뒤로가기" with lore "&a." to close then run [execute console command "kit %arg-1%"]
+        format slot 8 of arg-1 with barrier named "나가기" with lore "&a." to close then run [execute console command "out %arg-1%"]
+        stop
+
+command /oneitem1 [<player>]:
+    trigger:
+        wait 0.2 seconds
+        open chest with 2 rows named "&0&l상점 - Sword" to arg-1
+        format slot 0 of arg-1 with golden sword with lore "&e2 Coin" to run [execute console command "oneitem1_1 %arg-1%"]
+        format slot 1 of arg-1 with wooden sword with lore "&e4 Coin" to run [execute console command "oneitem1_2 %arg-1%"]
+        format slot 2 of arg-1 with stone sword with lore "&e6 Coin" to run [execute console command "oneitem1_3 %arg-1%"]
+        format slot 3 of arg-1 with iron sword with lore "&e10 Coin" to run [execute console command "oneitem1_4 %arg-1%"]
+        format slot 4 of arg-1 with diamond sword with lore "&e18 Coin" to run [execute console command "oneitem1_5 %arg-1%"]
+        format slot 5 of arg-1 with netherite sword with lore "&e24 Coin" to run [execute console command "oneitem1_6 %arg-1%"]
+        format slot 9 of arg-1 with golden axe with lore "&e4 Coin" to run [execute console command "oneitem1_7 %arg-1%"]
+        format slot 10 of arg-1 with wooden axe with lore "&e8 Coin" to run [execute console command "oneitem1_8 %arg-1%"]
+        format slot 11 of arg-1 with stone axe with lore "&e12 Coin" to run [execute console command "oneitem1_9 %arg-1%"]
+        format slot 12 of arg-1 with iron axe with lore "&e18 Coin" to run [execute console command "oneitem1_10 %arg-1%"]
+        format slot 13 of arg-1 with diamond axe with lore "&e25 Coin" to run [execute console command "oneitem1_11 %arg-1%"]
+        format slot 14 of arg-1 with netherite axe with lore "&e40 Coin" to run [execute console command "oneitem1_12 %arg-1%"]
+        format slot 8 of arg-1 with structure void named "뒤로가기" with lore "&a." to close then run [execute console command "oneitem %arg-1%"]
+        format slot 17 of arg-1 with barrier named "나가기" with lore "&a." to close then run [execute console command "out %arg-1%"]
+        stop
+
+command /oneitem2 [<player>]:
+    trigger:
+        wait 0.2 seconds
+        open chest with 1 rows named "&0&l상점 - Bow" to arg-1
+        format slot 0 of arg-1 with bow with lore "&e5 Coin" to run [execute console command "oneitem2_1 %arg-1%"]
+        format slot 1 of arg-1 with crossbow with lore "&e10 Coin" to run [execute console command "oneitem2_2 %arg-1%"]
+        format slot 2 of arg-1 with trident with lore "&e30 Coin" to run [execute console command "oneitem2_3 %arg-1%"]
+        format slot 4 of arg-1 with spectral arrow with lore "&e1 Coin (2개)" to run [execute console command "oneitem2_4 %arg-1%"]
+        format slot 5 of arg-1 with arrow with lore "&e1 Coin (4개)" to run [execute console command "oneitem2_5 %arg-1%"]
+        format slot 6 of arg-1 with firework rocket with lore "&e5 Coin" to run [execute console command "oneitem2_6 %arg-1%"]
+        format slot 7 of arg-1 with structure void named "뒤로가기" with lore "&a." to close then run [execute console command "oneitem %arg-1%"]
+        format slot 8 of arg-1 with barrier named "나가기" with lore "&a." to close then run [execute console command "out %arg-1%"]
+        stop
+
+command /oneitem3 [<player>]:
+    trigger:
+        wait 0.2 seconds
+        open chest with 1 rows named "&0&l상점 - Armor" to arg-1
+        format slot 0 of arg-1 with leather chestplate with lore "&e5 Coin / Leather Armor Set" to run [execute console command "oneitem3_1 %arg-1%"]
+        format slot 1 of arg-1 with golden chestplate with lore "&e8 Coin / Golden Armor Set" to run [execute console command "oneitem3_2 %arg-1%"]
+        format slot 2 of arg-1 with chainmail chestplate with lore "&e12 Coin / Chainmail Armor Set" to run [execute console command "oneitem3_3 %arg-1%"]
+        format slot 3 of arg-1 with iron chestplate with lore "&e20 Coin / Iron Armor Set" to run [execute console command "oneitem3_4 %arg-1%"]
+        format slot 4 of arg-1 with diamond chestplate with lore "&e50 Coin / Diamond Armor Set" to run [execute console command "oneitem3_5 %arg-1%"]
+        format slot 5 of arg-1 with netherite chestplate with lore "&e100 Coin / Netherite Armor Set" to run [execute console command "oneitem3_6 %arg-1%"]
+        format slot 7 of arg-1 with structure void named "뒤로가기" with lore "&a." to close then run [execute console command "oneitem %arg-1%"]
+        format slot 8 of arg-1 with barrier named "나가기" with lore "&a." to close then run [execute console command "out %arg-1%"]
+        stop
+
+command /oneitem4 [<player>]:
+    trigger:
+        wait 0.2 seconds
+        open chest with 2 rows named "&0&l상점 - Utility" to arg-1
+        format slot 0 of arg-1 with apple with lore "&e2 Coin (8개)" to run [execute console command "oneitem4_1 %arg-1%"]
+        format slot 1 of arg-1 with bread with lore "&e3 Coin (4개)" to run [execute console command "oneitem4_2 %arg-1%"]
+        format slot 2 of arg-1 with cooked beef with lore "&e4 Coin (2개)" to run [execute console command "oneitem4_3 %arg-1%"]
+        format slot 3 of arg-1 with golden carrot with lore "&e5 Coin" to run [execute console command "oneitem4_4 %arg-1%"]
+        format slot 4 of arg-1 with shield with lore "&e20 Coin" to run [execute console command "oneitem4_5 %arg-1%"]
+        format slot 5 of arg-1 with totem of undying with lore "&e50 Coin" to run [execute console command "oneitem4_6 %arg-1%"]
+        format slot 6 of arg-1 with golden apple with lore "&e15 Coin" to run [execute console command "oneitem4_7 %arg-1%"]
+        format slot 7 of arg-1 with enchanted golden apple with lore "&e30 Coin" to run [execute console command "oneitem4_8 %arg-1%"]
+        format slot 8 of arg-1 with structure void named "뒤로가기" with lore "&a." to close then run [execute console command "oneitem %arg-1%"]
+        format slot 17 of arg-1 with barrier named "나가기" with lore "&a." to close then run [execute console command "out %arg-1%"]
+        stop
+
+command /sword1 [<player>]:
+    trigger:
+        execute console command "clear %arg-1%"
+        give 1 stone sword of sharpness 1 to arg-1
+        give 1 chainmail chestplate to arg-1
+        give 1 chainmail leggings to arg-1
+        stop
+
+command /sword2 [<player>]:
+    trigger:
+        execute console command "clear %arg-1%"
+        give 1 iron sword to arg-1
+        give 1 leather chestplate of protection 4 to arg-1
+        stop
+
+command /sword3 [<player>]:
+    trigger:
+        execute console command "clear %arg-1%"
+        give 1 wooden sword of sharpness 2 to arg-1
+        give 1 iron helmet to arg-1
+        give 1 iron chestplate to arg-1
+        give 1 iron boots to arg-1
+        stop
+
+command /sword4 [<player>]:
+    trigger:
+        execute console command "clear %arg-1%"
+        give 1 golden sword to arg-1
+        give 1 golden helmet of protection 1 to arg-1
+        give 1 golden chestplate of protection 1 to arg-1
+        give 1 golden leggings of protection 1 to arg-1
+        give 1 golden boots of protection 1 to arg-1
+        stop
+
+command /bow1 [<player>]:
+    trigger:
+        execute console command "clear %arg-1%"
+        give 1 bow of power 1 to arg-1
+        give 10 arrow to arg-1
+        give 1 leather helmet to arg-1
+        give 1 leather chestplate to arg-1
+        give 1 leather leggings to arg-1
+        give 1 leather boots to arg-1
+        stop
+
+command /bow2 [<player>]:
+    trigger:
+        execute console command "clear %arg-1%"
+        give 1 wooden sword of sharpness 1 to arg-1
+        give 1 bow to arg-1
+        give 8 arrow to arg-1
+        give 1 chainmail chestplate to arg-1
+        stop
+
+command /bow3 [<player>]:
+    trigger:
+        execute console command "clear %arg-1%"
+        give 1 golden sword of power 1 to arg-1
+        give 1 crossbow of multishot 1 to arg-1
+        give 8 arrow to arg-1
+        give 1 golden chestplate to arg-1
+        stop
+
+command /bow4 [<player>]:
+    trigger:
+        execute console command "clear %arg-1%"
+        give 1 crossbow of piercing 2, quick charge 2 to arg-1
+        give 16 arrow to arg-1
+        give 1 iron leggings of protection 1 to arg-1
+        stop
+
+command /bow5 [<player>]:
+    trigger:
+        execute console command "clear %arg-1%"
+        give 1 crossbow to arg-1
+        execute console command "give %arg-1% firework_rocket{Fireworks:{Flight:3,Explosions:[{Type:1,Flicker:0,Trail:0,Colors:[I;4408131]},{Type:0,Flicker:0,Trail:0,Colors:[I;4408131]},{Type:0,Flicker:0,Trail:0,Colors:[I;4408131]},{Type:0,Flicker:0,Trail:0,Colors:[I;4408131]},{Type:0,Flicker:0,Trail:0,Colors:[I;4408131]}]}} 4"
+        give 1 leather chestplate to arg-1
+        stop
+
+command /etc1 [<player>]:
+    trigger:
+        execute console command "clear %arg-1%"
+        give 1 stick of knockback 2, sharpness 2 to arg-1
+        give 1 iron chestplate of protection 2 to arg-1
+        give 1 shield to arg-1
+
+command /etc2 [<player>]:
+    trigger:
+        execute console command "clear %arg-1%"
+        give 1 stone axe to arg-1
+        give 1 iron chestplate to arg-1
+        give 1 shield to arg-1
+
+command /etc3 [<player>]:
+    trigger:
+        execute console command "clear %arg-1%"
+        give 1 diamond axe of sharpness 1 to arg-1
+
+command /etc4 [<player>]:
+    trigger:
+        execute console command "clear %arg-1%"
+        give 1 fishing rod of knockback 3, sharpness 5 to arg-1
+        give 1 turtle helmet of protection 1 to arg-1
+        give 1 leather chestplate of protection 2 to arg-1
+        give 1 leather leggings of protection 1 to arg-1
+        give 1 leather boots of protection 1 to arg-1
+
+command /oneitem1_1 [<player>]:
+    trigger:
+        if {coin.%arg-1%} > 2:
+            subtract 2 from {coin.%arg-1%}
+            give 1 golden sword to arg-1
+        else:
+            message "&cYou need Money." to arg-1
+
+command /oneitem1_2 [<player>]:
+    trigger:
+        if {coin.%arg-1%} > 4:
+            subtract 4 from {coin.%arg-1%}
+            give 1 wooden sword to arg-1
+        else:
+            message "&cYou need Money." to arg-1
+
+command /oneitem1_3 [<player>]:
+    trigger:
+        if {coin.%arg-1%} > 6:
+            subtract 6 from {coin.%arg-1%}
+            give 1 stone sword to arg-1
+        else:
+            message "&cYou need Money." to arg-1
+
+command /oneitem1_4 [<player>]:
+    trigger:
+        if {coin.%arg-1%} > 10:
+            subtract 10 from {coin.%arg-1%}
+            give 1 iron sword to arg-1
+        else:
+            message "&cYou need Money." to arg-1
+
+command /oneitem1_5 [<player>]:
+    trigger:
+        if {coin.%arg-1%} > 18:
+            subtract 18 from {coin.%arg-1%}
+            give 1 diamond sword to arg-1
+        else:
+            message "&cYou need Money." to arg-1
+
+command /oneitem1_6 [<player>]:
+    trigger:
+        if {coin.%arg-1%} > 24:
+            subtract 24 from {coin.%arg-1%}
+            give 1 netherite sword to arg-1
+        else:
+            message "&cYou need Money." to arg-1
+
+command /oneitem1_7 [<player>]:
+    trigger:
+        if {coin.%arg-1%} > 4:
+            subtract 4 from {coin.%arg-1%}
+            give 1 golden axe to arg-1
+        else:
+            message "&cYou need Money." to arg-1
+
+command /oneitem1_8 [<player>]:
+    trigger:
+        if {coin.%arg-1%} > 8:
+            subtract 8 from {coin.%arg-1%}
+            give 1 wooden axe to arg-1
+        else:
+            message "&cYou need Money." to arg-1
+
+command /oneitem1_9 [<player>]:
+    trigger:
+        if {coin.%arg-1%} > 12:
+            subtract 12 from {coin.%arg-1%}
+            give 1 stone axe to arg-1
+        else:
+            message "&cYou need Money." to arg-1
+
+command /oneitem1_10 [<player>]:
+    trigger:
+        if {coin.%arg-1%} > 20:
+            subtract 18 from {coin.%arg-1%}
+            give 1 iron axe to arg-1
+        else:
+            message "&cYou need Money." to arg-1
+
+command /oneitem1_11 [<player>]:
+    trigger:
+        if {coin.%arg-1%} > 40:
+            subtract 25 from {coin.%arg-1%}
+            give 1 diamond axe to arg-1
+        else:
+            message "&cYou need Money." to arg-1
+
+command /oneitem1_12 [<player>]:
+    trigger:
+        if {coin.%arg-1%} > 60:
+            subtract 40 from {coin.%arg-1%}
+            give 1 netherite axe to arg-1
+        else:
+            message "&cYou need Money." to arg-1
+
+command /oneitem2_1 [<player>]:
+    trigger:
+        if {coin.%arg-1%} > 5:
+            subtract 5 from {coin.%arg-1%}
+            give 1 bow to arg-1
+        else:
+            message "&cYou need Money." to arg-1
+
+command /oneitem2_2 [<player>]:
+    trigger:
+        if {coin.%arg-1%} > 10:
+            subtract 10 from {coin.%arg-1%}
+            give 1 crossbow to arg-1
+        else:
+            message "&cYou need Money." to arg-1
+
+command /oneitem2_3 [<player>]:
+    trigger:
+        if {coin.%arg-1%} > 23:
+            subtract 23 from {coin.%arg-1%}
+            give 1 trident to arg-1
+        else:
+            message "&cYou need Money." to arg-1
+
+command /oneitem2_4 [<player>]:
+    trigger:
+        if {coin.%arg-1%} > 1:
+            subtract 1 from {coin.%arg-1%}
+            give 2 spectral arrow to arg-1
+        else:
+            message "&cYou need Money." to arg-1
+
+command /oneitem2_5 [<player>]:
+    trigger:
+        if {coin.%arg-1%} > 1:
+            subtract 1 from {coin.%arg-1%}
+            give 4 arrow to arg-1
+        else:
+            message "&cYou need Money." to arg-1
+
+command /oneitem2_6 [<player>]:
+    trigger:
+        if {coin.%arg-1%} > 5:
+            subtract 5 from {coin.%arg-1%}
+            execute console command "give %arg-1% firework_rocket{Fireworks:{Flight:3,Explosions:[{Type:1,Flicker:0,Trail:0,Colors:[I;4408131]},{Type:0,Flicker:0,Trail:0,Colors:[I;4408131]},{Type:0,Flicker:0,Trail:0,Colors:[I;4408131]},{Type:0,Flicker:0,Trail:0,Colors:[I;4408131]},{Type:0,Flicker:0,Trail:0,Colors:[I;4408131]}]}} 1"
+        else:
+            message "&cYou need Money." to arg-1
+
+command /oneitem3_1 [<player>]:
+    trigger:
+        if {coin.%arg-1%} > 5:
+            subtract 5 from {coin.%arg-1%}
+            give 1 leather helmet to arg-1
+            give 1 leather chestplate to arg-1
+            give 1 leather leggings to arg-1
+            give 1 leather boots to arg-1
+        else:
+            message "&cYou need Money." to arg-1
+
+command /oneitem3_2 [<player>]:
+    trigger:
+        if {coin.%arg-1%} > 8:
+            subtract 8 from {coin.%arg-1%}
+            give 1 golden helmet to arg-1
+            give 1 golden chestplate to arg-1
+            give 1 golden leggings to arg-1
+            give 1 golden boots to arg-1
+        else:
+            message "&cYou need Money." to arg-1
+
+command /oneitem3_3 [<player>]:
+    trigger:
+        if {coin.%arg-1%} > 12:
+            subtract 12 from {coin.%arg-1%}
+            give 1 chainmail helmet to arg-1
+            give 1 chainmail chestplate to arg-1
+            give 1 chainmail leggings to arg-1
+            give 1 chainmail boots to arg-1
+        else:
+            message "&cYou need Money." to arg-1
+
+command /oneitem3_4 [<player>]:
+    trigger:
+        if {coin.%arg-1%} > 20:
+            subtract 20 from {coin.%arg-1%}
+            give 1 iron helmet to arg-1
+            give 1 iron chestplate to arg-1
+            give 1 iron leggings to arg-1
+            give 1 iron boots to arg-1
+        else:
+            message "&cYou need Money." to arg-1
+
+command /oneitem3_5 [<player>]:
+    trigger:
+        if {coin.%arg-1%} > 50:
+            subtract 50 from {coin.%arg-1%}
+            give 1 diamond helmet to arg-1
+            give 1 diamond chestplate to arg-1
+            give 1 diamond leggings to arg-1
+            give 1 diamond boots to arg-1
+        else:
+            message "&cYou need Money." to arg-1
+
+command /oneitem3_6 [<player>]:
+    trigger:
+        if {coin.%arg-1%} > 100:
+            subtract 100 from {coin.%arg-1%}
+            give 1 netherite helmet to arg-1
+            give 1 netherite chestplate to arg-1
+            give 1 netherite leggings to arg-1
+            give 1 netherite boots to arg-1
+        else:
+            message "&cYou need Money." to arg-1
+
+command /oneitem4_1 [<player>]:
+    trigger:
+        if {coin.%arg-1%} > 2:
+            subtract 2 from {coin.%arg-1%}
+            give 8 apple to arg-1
+        else:
+            message "&cYou need Money." to arg-1
+
+command /oneitem4_2 [<player>]:
+    trigger:
+        if {coin.%arg-1%} > 3:
+            subtract 3 from {coin.%arg-1%}
+            give 4 bread to arg-1
+        else:
+            message "&cYou need Money." to arg-1
+
+command /oneitem4_3 [<player>]:
+    trigger:
+        if {coin.%arg-1%} > 4:
+            subtract 4 from {coin.%arg-1%}
+            give 2 cooked beef to arg-1
+        else:
+            message "&cYou need Money." to arg-1
+
+command /oneitem4_4 [<player>]:
+    trigger:
+        if {coin.%arg-1%} > 5:
+            subtract 5 from {coin.%arg-1%}
+            give 1 golden carrot to arg-1
+        else:
+            message "&cYou need Money." to arg-1
+
+command /oneitem4_5 [<player>]:
+    trigger:
+        if {coin.%arg-1%} > 16:
+            subtract 16 from {coin.%arg-1%}
+            give 1 shield to arg-1
+        else:
+            message "&cYou need Money." to arg-1
+
+command /oneitem4_6 [<player>]:
+    trigger:
+        if {coin.%arg-1%} > 40:
+            subtract 40 from {coin.%arg-1%}
+            give 1 totem of undying to arg-1
+        else:
+            message "&cYou need Money." to arg-1
+
+command /oneitem4_7 [<player>]:
+    trigger:
+        if {coin.%arg-1%} > 10:
+            subtract 10 from {coin.%arg-1%}
+            give 1 golden apple to arg-1
+        else:
+            message "&cYou need Money." to arg-1
+
+command /oneitem4_8 [<player>]:
+    trigger:
+        if {coin.%arg-1%} > 30:
+            subtract 30 from {coin.%arg-1%}
+            give 1 enchanted golden apple to arg-1
+        else:
+            message "&cYou need Money." to arg-1

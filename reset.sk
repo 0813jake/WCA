@@ -1,0 +1,23 @@
+command /reset [<string>]:
+    trigger:
+        if player is op:
+            if arg-1 is "all":
+                message "&6All player's Kill_co/Coin/Kill_co_100 Reset Complete"
+                loop all players:
+                    set {kill_co.%loop-player%} to 0
+                    set {coin.%loop-player%} to 0
+                    set {kill_co_100.%loop-player%} to 0
+                    execute console command "effect clear @a"
+
+            if arg-1 is not set:
+                message "&cThis command required arg-1."
+
+            if arg-1 is not "all":
+                if arg-1 is set:
+                    message "&6%arg-1%'s Kill_co/Coin/Kill_co_100 Reset Complete"
+                    set {kill_co.%arg-1%} to 0
+                    set {coin.%arg-1%} to 0
+                    set {kill_co_100.%arg-1%} to 0
+                    execute console command "effect clear %arg-1%"
+        else:
+            message "&cYou are not authorized to use this command."
