@@ -1,0 +1,5 @@
+on tab complete of "/kill_co":
+    set tab completions for position 1 to "add" and "remove" and "set" and "get"
+
+on tab complete of "/coin":
+    set tab completions for position 1 to "add" and "remove" and "set" and "get"

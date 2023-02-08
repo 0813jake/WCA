@@ -1,0 +1,16 @@
+Variables:
+    {game_mode} = 0
+    {tdm_team.%player%} = 0
+    {tdm_red_kill} = 0
+    {tdm_blue_kill} = 0
+
+every 1 seconds:
+    if {game_mode} is "tdm":
+        loop all players:
+            if {tdm_team.%loop-player%} is "1":
+                teleport the loop-player to {tdm_red_spawn}
+
+            if {tdm_team.%loop-player%} is "2":
+                teleport the loop-player to {tdm_blue_spawn}
+
+        

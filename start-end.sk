@@ -1,0 +1,101 @@
+#game_start/end System
+Variables:
+    {game_stop} = 0
+    {game_start} = 0
+    {game_mode} = 0
+    {tdm_team.%player%} = 0
+    {tdm_red_kill} = 0
+    {tdm_blue_kill} = 0
+
+every 1 seconds:
+    if {game_stop} is 1:
+        loop all players:
+            set {kill_co.%loop-player%} to 0
+            set {kill_co_100.%loop-player%} to 0
+            set {game_mode} to 0
+        execute console command "bossbar set minecraft:0 visible false"
+        execute console command "bossbar set minecraft:1 visible false"
+        execute console command "bossbar set minecraft:2 visible false"
+        execute console command "bossbar set minecraft:3 visible false"
+        execute console command "bossbar set minecraft:4 visible false"
+        execute console command "bossbar set minecraft:5 visible false"
+        execute console command "bossbar set minecraft:6 visible false"
+        execute console command "bossbar set minecraft:7 visible false"
+        execute console command "bossbar set minecraft:0 value 0"
+        execute console command "bossbar set minecraft:1 value 0"
+        execute console command "bossbar set minecraft:2 value 0"
+        execute console command "bossbar set minecraft:3 value 0"
+        execute console command "bossbar set minecraft:4 value 0"
+        execute console command "bossbar set minecraft:5 value 0"
+        execute console command "bossbar set minecraft:6 value 0"
+        execute console command "bossbar set minecraft:7 value 0"
+        set {game_stop} to 0
+
+every 1 seconds:
+    if {game_start} is 1:
+        loop all players:
+            set {kill_co.%loop-player%} to 0
+            set {kill_co_100.%loop-player%} to 0
+            set {game_mode} to 0
+        execute console command "bossbar set minecraft:0 value 0"
+        execute console command "bossbar set minecraft:1 value 0"
+        execute console command "bossbar set minecraft:2 value 0"
+        execute console command "bossbar set minecraft:3 value 0"
+        execute console command "bossbar set minecraft:4 value 0"
+        execute console command "bossbar set minecraft:5 value 0"
+        execute console command "bossbar set minecraft:6 value 0"
+        execute console command "bossbar set minecraft:7 value 0"
+        execute console command "bossbar set minecraft:0 players @a"
+        execute console command "bossbar set minecraft:1 players @a"
+        execute console command "bossbar set minecraft:2 players @a"
+        execute console command "bossbar set minecraft:3 players @a"
+        execute console command "bossbar set minecraft:4 players @a"
+        execute console command "bossbar set minecraft:5 players @a"
+        execute console command "bossbar set minecraft:6 players @a"
+        execute console command "bossbar set minecraft:7 players @a"
+        set {game_start} to 0
+
+#game_running_system
+every 1 seconds:
+    if {game_mode} is "tdm":
+        loop all players:
+            if {tdm_team.%loop-player%} is "1":
+                teleport the loop-player to {tdm_red_spawn}
+
+            if {tdm_team.%loop-player%} is "2":
+                teleport the loop-player to {tdm_blue_spawn}
+
+#game_settings_command
+
+command /psc2023 [<string>] [<string>]:
+    trigger:
+        if player is op:
+            if arg-1 is not set:
+                message "&6/psc2023 [start/stop/mode] [tdm,arena,koth,cp,ctf]"
+            
+            if arg-1 is "start":
+                set {game_start} to 1
+                message "&aGame Starting"
+
+            if arg-1 is "stop":
+                set {game_stop} to 1
+                message "&aGame Stoping"
+            
+            if arg-1 is "mode":
+                if arg-2 is "tdm":
+                    set {game_mode} to arg-2
+                    message "&6Set game_mode %arg-2%"
+                if arg-2 is "arena":
+                    set {game_mode} to arg-2
+                    message "&6Set game_mode %arg-2%"
+                if arg-2 is "koth":
+                    set {game_mode} to arg-2
+                    message "&6Set game_mode %arg-2%"
+                if arg-2 is "cp":
+                    set {game_mode} to arg-2
+                    message "&6Set game_mode %arg-2%"
+                if arg-2 is "ctf":
+                    set {game_mode} to arg-2
+                    message "&6Set game_mode %arg-2%" 
+        else:
+            message "&cYou are not authorized to use this command."
