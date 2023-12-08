@@ -84,18 +84,18 @@ command /psc2023 [<string>] [<string>]:
             if arg-1 is "mode":
                 if arg-2 is "tdm":
                     set {game_mode} to arg-2
-                    message "&6Set game_mode %arg-2%"
+                    message "&6Set game_mode to %arg-2%"
                 if arg-2 is "arena":
                     set {game_mode} to arg-2
-                    message "&6Set game_mode %arg-2%"
+                    message "&6Set game_mode to %arg-2%"
                 if arg-2 is "koth":
                     set {game_mode} to arg-2
-                    message "&6Set game_mode %arg-2%"
+                    message "&6Set game_mode to %arg-2%"
                 if arg-2 is "cp":
                     set {game_mode} to arg-2
-                    message "&6Set game_mode %arg-2%"
+                    message "&6Set game_mode to %arg-2%"
                 if arg-2 is "ctf":
                     set {game_mode} to arg-2
-                    message "&6Set game_mode %arg-2%" 
+                    message "&6Set game_mode to %arg-2%" 
         else:
             message "&cYou are not authorized to use this command."
