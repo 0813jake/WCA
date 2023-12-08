@@ -1,6 +1,6 @@
-# PSC2023
+# WCA
 
-These files are for PSC2023.
+These files are for WarCraft Arsenal
 
 Copyright ⓒ 2023-2024 by 0813jake, Steve81141948, PinNyang
 
