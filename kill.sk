@@ -49,6 +49,8 @@ command /kill_co_100 [<player>]:
         execute console command "execute as %arg-1% at @s run particle minecraft:end_rod ~ ~ ~ 0.5 1 0.5 0.5 500"
 
         # draw 색번호 of 파티클코드 범위, ~~, 넓이 위치 기준 바뀌는 색번호 force for player
+        # (lerp|draw|make) %number% [of] %particle% [particle] [using %itemtype/blockdata/dustoption/dusttransition/vibration/number%] %directions% %locations% [with offset %vector%] [with extra %number%] [(with force)] [(for|to) %players%]
+        # draw 100 of flame 0 0 0 ~ ~ ~ with force to %player%
 
 every 0.1 seconds:
     loop all players:
