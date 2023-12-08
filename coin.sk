@@ -12,7 +12,9 @@ on rightclick on entity:
 
 command /coin [<string>] [<player>] [<integer>]:
     trigger:
-        if player is op:
+        if player is not op:
+            message "&cYou are not authorized to use this command."
+        else:
             if arg-1 is not set:
                 message "&6/coin {add/remove/set/get} {player} {number}"     
 
@@ -30,5 +32,3 @@ command /coin [<string>] [<player>] [<integer>]:
 
             if arg-1 is "get":
                 message "&6%arg-2%'s Coin is %{coin.%arg-2%}%"
-        else:
-            message "&cYou are not authorized to use this command."
