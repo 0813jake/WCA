@@ -48,6 +48,8 @@ command /kill_co_100 [<player>]:
         execute console command "execute as %arg-1% at @s run particle minecraft:soul_fire_flame ~ ~ ~ 0.5 1 0.5 0.5 500"
         execute console command "execute as %arg-1% at @s run particle minecraft:end_rod ~ ~ ~ 0.5 1 0.5 0.5 500"
 
+        # draw 색번호 of 파티클코드 범위, ~~, 넓이 위치 기준 바뀌는 색번호 force for player
+
 every 0.1 seconds:
     loop all players:
         if {death_co.%loop-player%} >= 1:
