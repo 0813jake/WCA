@@ -1,20 +1,16 @@
 Variables:
     {kill_co.%player%} = 0
-    {death_co.%player%} = 0
-    {kill_co_msg.%player%} = 0
     {kill_co_msg_4.%player%} = 0
     {kill_co_msg_9.%player%} = 0
     {kill_co_100.%player%} = 0
 
-on death:
-    if victim is player:
-        add 1 to {death_co.%victim%}
-        add 1 to {kill_co.%attacker%}
-        set {kill_co_100.%victim%} to 0
-        broadcast "&7%attacker% killed %victim%"
-        wait 0.2 seconds
-        execute console command "effect give %victim% minecraft:resistance 5 100 true"
-        execute console command "effect give %victim% minecraft:weakness 5 100 true"
+on death of player:
+    set {kill_co.%victim%} to 0
+    set {kill_co_100.%victim%} to 0
+    set the death message to "&7%attacker% killed %victim%"
+    wait 0.2 seconds
+    apply resistance of tier 100 without particles to victim for 5 seconds
+    apply weakness of tier 100 without particles to victim for 5 seconds
 
 command /kill_co [<string>] [<player>] [<integer>]:
     trigger:
@@ -37,35 +33,18 @@ command /kill_co [<string>] [<player>] [<integer>]:
             if arg-1 is "get":
                 message "&6%arg-2%'s Kill is %{kill_co.%arg-2%}%"
         else:
-            message "&cYou are not authorized to use this command."
-            
-command /kill_co_100 [<player>]:
-    trigger:
-        loop 3 times:
-            execute console command "execute as %arg-1% at @s run particle minecraft:flame ~ ~ ~ 0 0.25 0 0.1 100"
-            wait 0.25 seconds
-        execute console command "execute as %arg-1% at @s run particle minecraft:flame ~ ~ ~ 0.5 1 0.5 0.5 500"
-        execute console command "execute as %arg-1% at @s run particle minecraft:soul_fire_flame ~ ~ ~ 0.5 1 0.5 0.5 500"
-        execute console command "execute as %arg-1% at @s run particle minecraft:end_rod ~ ~ ~ 0.5 1 0.5 0.5 500"
-
-        # draw 색번호 of 파티클코드 범위, ~~, 넓이 위치 기준 바뀌는 색번호 force for player
-        # (lerp|draw|make) %number% [of] %particle% [particle] [using %itemtype/blockdata/dustoption/dusttransition/vibration/number%] %directions% %locations% [with offset %vector%] [with extra %number%] [(with force)] [(for|to) %players%]
-        # draw 100 of flame 0 0 0 ~ ~ ~ with force to %player%
+            message "&cYou have not permission to use this command."
 
 every 0.1 seconds:
     loop all players:
-        if {death_co.%loop-player%} >= 1:
-            set {kill_co.%loop-player%} to 0
-            set {death_co.%loop-player%} to 0
-
         if {kill_co.%loop-player%} = 4:
             set {kill_co_msg_4.%loop-player%} to 1
 
         if {kill_co.%loop-player%} = 5:
             if {kill_co_msg_4.%loop-player%} is 1:
                 broadcast "&a%loop-player% &fKill Streak &e%{kill_co.%loop-player%}% &6>"
-                execute console command "effect give %loop-player% regeneration 3 0 true"
-                execute console command "execute as %loop-player% at @s run particle minecraft:falling_dust white_concrete ~ ~ ~ 0.5 1 0.5 0.1 100"
+                apply regeneration of tier 0 without particles to loop-player for 3 seconds
+                make 100 of dust using dustOption(white, 1) at location of loop-player with offset vector(0.5, 1, 0.5) with extra 0.1
                 set {kill_co_msg_4.%loop-player%} to 0
                 add 3 to {coin.%loop-player%}
 
@@ -75,8 +54,8 @@ every 0.1 seconds:
         if {kill_co.%loop-player%} = 10:
             if {kill_co_msg_9.%loop-player%} is 1:
                 broadcast "&a%loop-player% &fKill Streak &e%{kill_co.%loop-player%}% &6>"
-                execute console command "effect give %loop-player% regeneration 3 1 true"
-                execute console command "execute as %loop-player% at @s run particle minecraft:falling_dust white_concrete ~ ~ ~ 0.5 1 0.5 0.1 100"
+                apply regeneration of tier 1 without particles to loop-player for 3 seconds
+                make 100 of dust using dustOption(white, 1) at location of loop-player with offset vector(0.5, 1, 0.5) with extra 0.1
                 set {kill_co_msg_9.%loop-player%} to 0
                 add 6 to {coin.%loop-player%}
 
@@ -86,9 +65,9 @@ every 0.1 seconds:
         if {kill_co.%loop-player%} = 15:
             if {kill_co_msg_4.%loop-player%} is 1:
                 broadcast "&a%loop-player% &fKill Streak &e%{kill_co.%loop-player%}% &6>"
-                execute console command "effect give %loop-player% absorption 30 2 true"
-                execute console command "execute as %loop-player% at @s run particle minecraft:flame ~ ~ ~ 0.5 1 0.5 0.1 100"
-                execute console command "execute as %loop-player% at @s run particle minecraft:falling_dust white_concrete ~ ~ ~ 0.5 1 0.5 0.1 100"
+                apply absorption of tier 2 without particles to loop-player for 30 seconds
+                make 100 of flame at location of loop-player with offset vector(0.5, 1, 0.5) with extra 0.1
+                make 100 of dust using dustOption(white, 1) at location of loop-player with offset vector(0.5, 1, 0.5) with extra 0.1
                 set {kill_co_msg_4.%loop-player%} to 0
                 add 9 to {coin.%loop-player%}
 
@@ -98,10 +77,10 @@ every 0.1 seconds:
         if {kill_co.%loop-player%} = 20:
             if {kill_co_msg_9.%loop-player%} is 1:
                 broadcast "&a%loop-player% &fKill Streak &e%{kill_co.%loop-player%}% &6>"
-                execute console command "effect give %loop-player% strength 10 0 true"
-                execute console command "effect give %loop-player% glowing 1000000 0 true"
-                execute console command "execute as %loop-player% at @s run particle minecraft:flame ~ ~ ~ 0.5 1 0.5 0.1 100"
-                execute console command "execute as %loop-player% at @s run particle minecraft:falling_dust white_concrete ~ ~ ~ 0.5 1 0.5 0.1 100"
+                apply strength of tier 0 without particles to loop-player for 10 seconds
+                apply glowing of tier 0 without particles to loop-player for 1000000 seconds
+                make 100 of flame at location of loop-player with offset vector(0.5, 1, 0.5) with extra 0.1
+                make 100 of dust using dustOption(white, 1) at location of loop-player with offset vector(0.5, 1, 0.5) with extra 0.1
                 send title "&6%loop-player%" with subtitle "&eKill Streak 20" to players for 0.2 seconds
                 set {kill_co_msg_9.%loop-player%} to 0
                 add 12 to {coin.%loop-player%}
@@ -112,9 +91,9 @@ every 0.1 seconds:
         if {kill_co.%loop-player%} = 25:
             if {kill_co_msg_4.%loop-player%} is 1:
                 broadcast "&a%loop-player% &fKill Streak &e%{kill_co.%loop-player%}% &6>"
-                execute console command "effect give %loop-player% regeneration 10 1 true"
-                execute console command "execute as %loop-player% at @s run particle minecraft:flame ~ ~ ~ 0.5 1 0.5 0.1 100"
-                execute console command "execute as %loop-player% at @s run particle minecraft:falling_dust white_concrete ~ ~ ~ 0.5 1 0.5 0.1 100"
+                apply regeneration of tier 1 without particles to loop-player for 10 seconds
+                make 100 of flame at location of loop-player with offset vector(0.5, 1, 0.5) with extra 0.1
+                make 100 of dust using dustOption(white, 1) at location of loop-player with offset vector(0.5, 1, 0.5) with extra 0.1
                 set {kill_co_msg_4.%loop-player%} to 0
                 add 15 to {coin.%loop-player%}
 
@@ -124,9 +103,9 @@ every 0.1 seconds:
         if {kill_co.%loop-player%} = 30:
             if {kill_co_msg_9.%loop-player%} is 1:
                 broadcast "&a%loop-player% &fKill Streak &e%{kill_co.%loop-player%}% &6>"
-                execute console command "effect give %loop-player% resistance 10 0 true"
-                execute console command "execute as %loop-player% at @s run particle minecraft:flame ~ ~ ~ 0.5 1 0.5 0.1 100"
-                execute console command "execute as %loop-player% at @s run particle minecraft:falling_dust white_concrete ~ ~ ~ 0.5 1 0.5 0.1 100"
+                apply resistance of tier 0 without particles to loop-player for 10 seconds
+                make 100 of flame at location of loop-player with offset vector(0.5, 1, 0.5) with extra 0.1
+                make 100 of dust using dustOption(white, 1) at location of loop-player with offset vector(0.5, 1, 0.5) with extra 0.1
                 send title "&6%loop-player%" with subtitle "&dKill Streak 30" to players for 0.2 seconds
                 set {kill_co_msg_9.%loop-player%} to 0
                 add 18 to {coin.%loop-player%}
@@ -137,9 +116,9 @@ every 0.1 seconds:
         if {kill_co.%loop-player%} = 35:
             if {kill_co_msg_4.%loop-player%} is 1:
                 broadcast "&a%loop-player% &fKill Streak &e%{kill_co.%loop-player%}% &6>"
-                execute console command "effect give %loop-player% instant_health 1 3 true"
-                execute console command "execute as %loop-player% at @s run particle minecraft:flame ~ ~ ~ 0.5 1 0.5 0.1 100"
-                execute console command "execute as %loop-player% at @s run particle minecraft:wax_off ~ ~ ~ 0.5 1 0.5 0.1 100"
+                apply instant health of tier 3 without particles to loop-player for 1 seconds
+                make 100 of flame at location of loop-player with offset vector(0.5, 1, 0.5) with extra 0.1
+                make 100 of wax_off at location of loop-player with offset vector(0.5, 1, 0.5) with extra 0.1
                 set {kill_co_msg_4.%loop-player%} to 0
                 add 21 to {coin.%loop-player%}
 
@@ -149,9 +128,9 @@ every 0.1 seconds:
         if {kill_co.%loop-player%} = 40:
             if {kill_co_msg_9.%loop-player%} is 1:
                 broadcast "&a%loop-player% &fKill Streak &e%{kill_co.%loop-player%}% &6>"
-                execute console command "effect give %loop-player% speed 20 1 true"
-                execute console command "execute as %loop-player% at @s run particle minecraft:flame ~ ~ ~ 0.5 1 0.5 0.1 100"
-                execute console command "execute as %loop-player% at @s run particle minecraft:wax_off ~ ~ ~ 0.5 1 0.5 0.1 100"
+                apply speed of tier 1 without particles to loop-player for 20 seconds
+                make 100 of flame at location of loop-player with offset vector(0.5, 1, 0.5) with extra 0.1
+                make 100 of wax_off at location of loop-player with offset vector(0.5, 1, 0.5) with extra 0.1
                 send title "&6%loop-player%" with subtitle "&bKill Streak 40" to players for 0.2 seconds
                 set {kill_co_msg_9.%loop-player%} to 0
                 add 24 to {coin.%loop-player%}
@@ -162,9 +141,9 @@ every 0.1 seconds:
         if {kill_co.%loop-player%} = 45:
             if {kill_co_msg_4.%loop-player%} is 1:
                 broadcast "&a%loop-player% &fKill Streak &e%{kill_co.%loop-player%}% &6>"
-                execute console command "effect give %loop-player% absorption 30 3 true"
-                execute console command "execute as %loop-player% at @s run particle minecraft:flame ~ ~ ~ 0.5 1 0.5 0.1 100"
-                execute console command "execute as %loop-player% at @s run particle minecraft:wax_off ~ ~ ~ 0.5 1 0.5 0.1 100"
+                apply absorption of tier 3 without particles to loop-player for 30 seconds
+                make 100 of flame at location of loop-player with offset vector(0.5, 1, 0.5) with extra 0.1
+                make 100 of wax_off at location of loop-player with offset vector(0.5, 1, 0.5) with extra 0.1
                 set {kill_co_msg_4.%loop-player%} to 0
                 add 27 to {coin.%loop-player%}
 
@@ -174,11 +153,11 @@ every 0.1 seconds:
         if {kill_co.%loop-player%} = 50:
             if {kill_co_msg_9.%loop-player%} is 1:
                 broadcast "&a%loop-player% &fKill Streak &e%{kill_co.%loop-player%}% &6>"
-                execute console command "effect give %loop-player% strength 15 1 true"
-                execute console command "execute as %loop-player% at @s run particle minecraft:flame ~ ~ ~ 0.5 1 0.5 0.1 100"
-                execute console command "execute as %loop-player% at @s run particle minecraft:wax_off ~ ~ ~ 0.5 1 0.5 0.1 100"
-                execute console command "execute as %loop-player% at @s run particle minecraft:wax_on ~ ~ ~ 0.5 1 0.5 0.1 100"
-                execute console command "execute as @a at @s run playsound minecraft:ui.toast.challenge_complete master @s"
+                apply strength of tier 1 without particles to loop-player for 15 seconds
+                make 100 of flame at location of loop-player with offset vector(0.5, 1, 0.5) with extra 0.1
+                make 100 of wax_off at location of loop-player with offset vector(0.5, 1, 0.5) with extra 0.1
+                make 100 of wax_on at location of loop-player with offset vector(0.5, 1, 0.5) with extra 0.1
+                play sound "ui.toast.challenge_complete" at volume 1 at pitch 1 to loop-player
                 send title "&6%loop-player%" with subtitle "&7Kill Streak 50" to players for 0.2 seconds
                 set {kill_co_msg_9.%loop-player%} to 0
                 add 30 to {coin.%loop-player%}
@@ -189,10 +168,10 @@ every 0.1 seconds:
         if {kill_co.%loop-player%} = 55:
             if {kill_co_msg_4.%loop-player%} is 1:
                 broadcast "&a%loop-player% &fKill Streak &e%{kill_co.%loop-player%}% &6>"
-                execute console command "effect give %loop-player% regeneration 30 2 true"
-                execute console command "execute as %loop-player% at @s run particle minecraft:flame ~ ~ ~ 0.5 1 0.5 0.1 100"
-                execute console command "execute as %loop-player% at @s run particle minecraft:wax_off ~ ~ ~ 0.5 1 0.5 0.1 100"
-                execute console command "execute as %loop-player% at @s run particle minecraft:wax_on ~ ~ ~ 0.5 1 0.5 0.1 100"
+                apply regeneration of tier 2 without particles to loop-player for 30 seconds
+                make 100 of flame at location of loop-player with offset vector(0.5, 1, 0.5) with extra 0.1
+                make 100 of wax_off at location of loop-player with offset vector(0.5, 1, 0.5) with extra 0.1
+                make 100 of wax_on at location of loop-player with offset vector(0.5, 1, 0.5) with extra 0.1
                 set {kill_co_msg_4.%loop-player%} to 0
                 add 33 to {coin.%loop-player%}
 
@@ -202,11 +181,11 @@ every 0.1 seconds:
         if {kill_co.%loop-player%} = 60:
             if {kill_co_msg_9.%loop-player%} is 1:
                 broadcast "&a%loop-player% &fKill Streak &e%{kill_co.%loop-player%}% &6>"
-                execute console command "effect give %loop-player% fire_resistance 1000000 0 true"
-                execute console command "execute as %loop-player% at @s run particle minecraft:flame ~ ~ ~ 0.5 1 0.5 0.1 100"
-                execute console command "execute as %loop-player% at @s run particle minecraft:wax_off ~ ~ ~ 0.5 1 0.5 0.1 100"
-                execute console command "execute as %loop-player% at @s run particle minecraft:wax_on ~ ~ ~ 0.5 1 0.5 0.1 100"
-                execute console command "execute as %loop-player% at @s run particle minecraft:witch ~ ~ ~ 0.5 1 0.5 0.1 100"
+                apply fire resistance of tier 0 without particles to loop-player for 1000000 seconds
+                make 100 of flame at location of loop-player with offset vector(0.5, 1, 0.5) with extra 0.1
+                make 100 of wax_off at location of loop-player with offset vector(0.5, 1, 0.5) with extra 0.1
+                make 100 of wax_on at location of loop-player with offset vector(0.5, 1, 0.5) with extra 0.1
+                make 100 of witch at location of loop-player with offset vector(0.5, 1, 0.5) with extra 0.1
                 send title "&6%loop-player%" with subtitle "&9Kill Streak 60" to players for 0.2 seconds
                 set {kill_co_msg_9.%loop-player%} to 0
                 add 36 to {coin.%loop-player%}
@@ -217,11 +196,11 @@ every 0.1 seconds:
         if {kill_co.%loop-player%} = 65:
             if {kill_co_msg_4.%loop-player%} is 1:
                 broadcast "&a%loop-player% &fKill Streak &e%{kill_co.%loop-player%}% &6>"
-                execute console command "effect give %loop-player% instant_health 1 4 true"
-                execute console command "execute as %loop-player% at @s run particle minecraft:flame ~ ~ ~ 0.5 1 0.5 0.1 100"
-                execute console command "execute as %loop-player% at @s run particle minecraft:wax_off ~ ~ ~ 0.5 1 0.5 0.1 100"
-                execute console command "execute as %loop-player% at @s run particle minecraft:wax_on ~ ~ ~ 0.5 1 0.5 0.1 100"
-                execute console command "execute as %loop-player% at @s run particle minecraft:witch ~ ~ ~ 0.5 1 0.5 0.1 100"
+                apply instant health of tier 4 without particles to loop-player for 1 seconds
+                make 100 of flame at location of loop-player with offset vector(0.5, 1, 0.5) with extra 0.1
+                make 100 of wax_off at location of loop-player with offset vector(0.5, 1, 0.5) with extra 0.1
+                make 100 of wax_on at location of loop-player with offset vector(0.5, 1, 0.5) with extra 0.1
+                make 100 of witch at location of loop-player with offset vector(0.5, 1, 0.5) with extra 0.1
                 set {kill_co_msg_4.%loop-player%} to 0
                 add 39 to {coin.%loop-player%}
 
@@ -231,12 +210,12 @@ every 0.1 seconds:
         if {kill_co.%loop-player%} = 70:
             if {kill_co_msg_9.%loop-player%} is 1:
                 broadcast "&a%loop-player% &fKill Streak &e%{kill_co.%loop-player%}% &6>"
-                execute console command "effect give %loop-player% strength 15 2 true"
-                execute console command "execute as %loop-player% at @s run particle minecraft:flame ~ ~ ~ 0.5 1 0.5 0.1 100"
-                execute console command "execute as %loop-player% at @s run particle minecraft:wax_off ~ ~ ~ 0.5 1 0.5 0.1 100"
-                execute console command "execute as %loop-player% at @s run particle minecraft:wax_on ~ ~ ~ 0.5 1 0.5 0.1 100"
-                execute console command "execute as %loop-player% at @s run particle minecraft:witch ~ ~ ~ 0.5 1 0.5 0.1 100"
-                execute console command "execute as %loop-player% at @s run particle minecraft:happy_village ~ ~ ~ 0.5 1 0.5 0.1 100"
+                apply strength of tier 2 without particles to loop-player for 15 seconds
+                make 100 of flame at location of loop-player with offset vector(0.5, 1, 0.5) with extra 0.1
+                make 100 of wax_off at location of loop-player with offset vector(0.5, 1, 0.5) with extra 0.1
+                make 100 of wax_on at location of loop-player with offset vector(0.5, 1, 0.5) with extra 0.1
+                make 100 of witch at location of loop-player with offset vector(0.5, 1, 0.5) with extra 0.1
+                make 100 of happy_villager at location of loop-player with offset vector(0.5, 1, 0.5) with extra 0.1
                 send title "&6%loop-player%" with subtitle "&aKill Streak 70" to players for 0.2 seconds
                 set {kill_co_msg_9.%loop-player%} to 0
                 add 42 to {coin.%loop-player%}
@@ -247,12 +226,12 @@ every 0.1 seconds:
         if {kill_co.%loop-player%} = 75:
             if {kill_co_msg_4.%loop-player%} is 1:
                 broadcast "&a%loop-player% &fKill Streak &e%{kill_co.%loop-player%}% &6>"
-                execute console command "effect give %loop-player% regeneration 1000000 0 true"
-                execute console command "execute as %loop-player% at @s run particle minecraft:flame ~ ~ ~ 0.5 1 0.5 0.1 100"
-                execute console command "execute as %loop-player% at @s run particle minecraft:wax_off ~ ~ ~ 0.5 1 0.5 0.1 100"
-                execute console command "execute as %loop-player% at @s run particle minecraft:wax_on ~ ~ ~ 0.5 1 0.5 0.1 100"
-                execute console command "execute as %loop-player% at @s run particle minecraft:witch ~ ~ ~ 0.5 1 0.5 0.1 100"
-                execute console command "execute as %loop-player% at @s run particle minecraft:happy_village ~ ~ ~ 0.5 1 0.5 0.1 100"
+                apply regeneration of tier 0 without particles to loop-player for 1000000 seconds
+                make 100 of flame at location of loop-player with offset vector(0.5, 1, 0.5) with extra 0.1
+                make 100 of wax_off at location of loop-player with offset vector(0.5, 1, 0.5) with extra 0.1
+                make 100 of wax_on at location of loop-player with offset vector(0.5, 1, 0.5) with extra 0.1
+                make 100 of witch at location of loop-player with offset vector(0.5, 1, 0.5) with extra 0.1
+                make 100 of happy_villager at location of loop-player with offset vector(0.5, 1, 0.5) with extra 0.1
                 set {kill_co_msg_4.%loop-player%} to 0
                 add 45 to {coin.%loop-player%}
 
@@ -262,12 +241,12 @@ every 0.1 seconds:
         if {kill_co.%loop-player%} = 80:
             if {kill_co_msg_9.%loop-player%} is 1:
                 broadcast "&a%loop-player% &fKill Streak &e%{kill_co.%loop-player%}% &6>"
-                execute console command "effect give %loop-player% strength 1000000 0 true"
-                execute console command "execute as %loop-player% at @s run particle minecraft:flame ~ ~ ~ 0.5 1 0.5 0.1 100"
-                execute console command "execute as %loop-player% at @s run particle minecraft:wax_off ~ ~ ~ 0.5 1 0.5 0.1 100"
-                execute console command "execute as %loop-player% at @s run particle minecraft:wax_on ~ ~ ~ 0.5 1 0.5 0.1 100"
-                execute console command "execute as %loop-player% at @s run particle minecraft:witch ~ ~ ~ 0.5 1 0.5 0.1 100"
-                execute console command "execute as %loop-player% at @s run particle minecraft:happy_village ~ ~ ~ 0.5 1 0.5 0.1 100"
+                apply strength of tier 0 without particles to loop-player for 1000000 seconds
+                make 100 of flame at location of loop-player with offset vector(0.5, 1, 0.5) with extra 0.1
+                make 100 of wax_off at location of loop-player with offset vector(0.5, 1, 0.5) with extra 0.1
+                make 100 of wax_on at location of loop-player with offset vector(0.5, 1, 0.5) with extra 0.1
+                make 100 of witch at location of loop-player with offset vector(0.5, 1, 0.5) with extra 0.1
+                make 100 of happy_villager at location of loop-player with offset vector(0.5, 1, 0.5) with extra 0.1
                 send title "&6%loop-player%" with subtitle "&fKill Streak 80" to players for 0.2 seconds
                 set {kill_co_msg_9.%loop-player%} to 0
                 add 48 to {coin.%loop-player%}
@@ -278,13 +257,13 @@ every 0.1 seconds:
         if {kill_co.%loop-player%} = 85:
             if {kill_co_msg_4.%loop-player%} is 1:
                 broadcast "&a%loop-player% &fKill Streak &e%{kill_co.%loop-player%}% &6>"
-                execute console command "effect give %loop-player% resistance 1000000 0 true"
-                execute console command "execute as %loop-player% at @s run particle minecraft:flame ~ ~ ~ 0.5 1 0.5 0.1 100"
-                execute console command "execute as %loop-player% at @s run particle minecraft:wax_off ~ ~ ~ 0.5 1 0.5 0.1 100"
-                execute console command "execute as %loop-player% at @s run particle minecraft:wax_on ~ ~ ~ 0.5 1 0.5 0.1 100"
-                execute console command "execute as %loop-player% at @s run particle minecraft:witch ~ ~ ~ 0.5 1 0.5 0.1 100"
-                execute console command "execute as %loop-player% at @s run particle minecraft:happy_village ~ ~ ~ 0.5 1 0.5 0.1 100"
-                execute console command "execute as %loop-player% at @s run particle minecraft:totem_of_undying ~ ~ ~ 0.5 1 0.5 0.1 100"
+                apply resistance of tier 0 without particles to loop-player for 1000000 seconds
+                make 100 of flame at location of loop-player with offset vector(0.5, 1, 0.5) with extra 0.1
+                make 100 of wax_off at location of loop-player with offset vector(0.5, 1, 0.5) with extra 0.1
+                make 100 of wax_on at location of loop-player with offset vector(0.5, 1, 0.5) with extra 0.1
+                make 100 of witch at location of loop-player with offset vector(0.5, 1, 0.5) with extra 0.1
+                make 100 of happy_villager at location of loop-player with offset vector(0.5, 1, 0.5) with extra 0.1
+                make 100 of totem_of_undying at location of loop-player with offset vector(0.5, 1, 0.5) with extra 0.1
                 set {kill_co_msg_4.%loop-player%} to 0
                 add 51 to {coin.%loop-player%}
 
@@ -294,13 +273,13 @@ every 0.1 seconds:
         if {kill_co.%loop-player%} = 90:
             if {kill_co_msg_9.%loop-player%} is 1:
                 broadcast "&a%loop-player% &fKill Streak &e%{kill_co.%loop-player%}% &6>"
-                execute console command "effect give %loop-player% absorption 60 6 true"
-                execute console command "execute as %loop-player% at @s run particle minecraft:flame ~ ~ ~ 0.5 1 0.5 0.1 100"
-                execute console command "execute as %loop-player% at @s run particle minecraft:wax_off ~ ~ ~ 0.5 1 0.5 0.1 100"
-                execute console command "execute as %loop-player% at @s run particle minecraft:wax_on ~ ~ ~ 0.5 1 0.5 0.1 100"
-                execute console command "execute as %loop-player% at @s run particle minecraft:witch ~ ~ ~ 0.5 1 0.5 0.1 100"
-                execute console command "execute as %loop-player% at @s run particle minecraft:happy_village ~ ~ ~ 0.5 1 0.5 0.1 100"
-                execute console command "execute as %loop-player% at @s run particle minecraft:totem_of_undying ~ ~ ~ 0.5 1 0.5 0.1 100"
+                apply absorption of tier 6 without particles to loop-player for 60 seconds
+                make 100 of flame at location of loop-player with offset vector(0.5, 1, 0.5) with extra 0.1
+                make 100 of wax_off at location of loop-player with offset vector(0.5, 1, 0.5) with extra 0.1
+                make 100 of wax_on at location of loop-player with offset vector(0.5, 1, 0.5) with extra 0.1
+                make 100 of witch at location of loop-player with offset vector(0.5, 1, 0.5) with extra 0.1
+                make 100 of happy_villager at location of loop-player with offset vector(0.5, 1, 0.5) with extra 0.1
+                make 100 of totem_of_undying at location of loop-player with offset vector(0.5, 1, 0.5) with extra 0.1
                 send title "&6%loop-player%" with subtitle "&0Kill Streak 90" to players for 0.2 seconds
                 set {kill_co_msg_9.%loop-player%} to 0
                 add 54 to {coin.%loop-player%}
@@ -311,14 +290,14 @@ every 0.1 seconds:
         if {kill_co.%loop-player%} = 95:
             if {kill_co_msg_4.%loop-player%} is 1:
                 broadcast "&a%loop-player% &fKill Streak &e%{kill_co.%loop-player%}% &6>"
-                execute console command "effect give %loop-player% speed 1000000 0 true"
-                execute console command "execute as %loop-player% at @s run particle minecraft:flame ~ ~ ~ 0.5 1 0.5 0.1 100"
-                execute console command "execute as %loop-player% at @s run particle minecraft:wax_off ~ ~ ~ 0.5 1 0.5 0.1 100"
-                execute console command "execute as %loop-player% at @s run particle minecraft:wax_on ~ ~ ~ 0.5 1 0.5 0.1 100"
-                execute console command "execute as %loop-player% at @s run particle minecraft:witch ~ ~ ~ 0.5 1 0.5 0.1 100"
-                execute console command "execute as %loop-player% at @s run particle minecraft:happy_village ~ ~ ~ 0.5 1 0.5 0.1 100"
-                execute console command "execute as %loop-player% at @s run particle minecraft:totem_of_undying ~ ~ ~ 0.5 1 0.5 0.1 100"
-                execute console command "execute as %loop-player% at @s run particle minecraft:sonic_boom ~ ~ ~ 0.5 1 0.5 0.1 100"
+                apply speed of tier 0 without particles to loop-player for 1000000 seconds
+                make 100 of flame at location of loop-player with offset vector(0.5, 1, 0.5) with extra 0.1
+                make 100 of wax_off at location of loop-player with offset vector(0.5, 1, 0.5) with extra 0.1
+                make 100 of wax_on at location of loop-player with offset vector(0.5, 1, 0.5) with extra 0.1
+                make 100 of witch at location of loop-player with offset vector(0.5, 1, 0.5) with extra 0.1
+                make 100 of happy_villager at location of loop-player with offset vector(0.5, 1, 0.5) with extra 0.1
+                make 100 of totem_of_undying at location of loop-player with offset vector(0.5, 1, 0.5) with extra 0.1
+                make 100 of sonic_boom at location of loop-player with offset vector(0.5, 1, 0.5) with extra 0.1
                 set {kill_co_msg_4.%loop-player%} to 0
                 add 57 to {coin.%loop-player%}
 
@@ -328,19 +307,34 @@ every 0.1 seconds:
         if {kill_co.%loop-player%} = 100:
             if {kill_co_msg_9.%loop-player%} is 1:
                 broadcast "&a%loop-player% &fKill Streak &e%{kill_co.%loop-player%}% &6>"
-                execute console command "effect give %loop-player% health_boost 1000000 13 true"
-                execute console command "execute as %loop-player% at @s run particle minecraft:flame ~ ~ ~ 0.5 1 0.5 0.1 100"
-                execute console command "execute as %loop-player% at @s run particle minecraft:end_rod ~ ~ ~ 0.5 1 0.5 0.1 100"
-                execute console command "execute as %loop-player% at @s run particle minecraft:totem_of_undying ~ ~ ~ 0.5 1 0.5 0.1 100"
-                execute console command "execute as %loop-player% at @s run particle minecraft:witch ~ ~ ~ 0.5 1 0.5 0.1 100"
-                execute console command "execute as %loop-player% at @s run particle minecraft:wax_off ~ ~ ~ 0.5 1 0.5 0.1 100"
-                execute console command "execute as %loop-player% at @s run particle minecraft:sonic_boom ~ ~ ~ 0.5 1 0.5 0.1 100"
-                execute console command "execute as @a at @s run playsound minecraft:ui.toast.challenge_complete master @s"
-                execute console command "kill_co_100 %loop-player%"
+                apply health boost of tier 13 without particles to loop-player for 1000000 seconds
+                make 100 of flame at location of loop-player with offset vector(0.5, 1, 0.5) with extra 0.1
+                make 100 of end_rod at location of loop-player with offset vector(0.5, 1, 0.5) with extra 0.1
+                make 100 of totem_of_undying at location of loop-player with offset vector(0.5, 1, 0.5) with extra 0.1
+                make 100 of witch at location of loop-player with offset vector(0.5, 1, 0.5) with extra 0.1
+                make 100 of wax_off at location of loop-player with offset vector(0.5, 1, 0.5) with extra 0.1
+                make 100 of sonic_boom at location of loop-player with offset vector(0.5, 1, 0.5) with extra 0.1
+                play sound "ui.toast.challenge_complete" at volume 1 at pitch 1 to loop-player
                 send title "&6%loop-player%" with subtitle "&c&lKill Streak 100" to players for 1 seconds
                 set {kill_co_msg_9.%loop-player%} to 0
                 set {kill_co_100.%loop-player%} to 1
                 add 60 to {coin.%loop-player%}
 
+                loop 3 times:
+                    make 100 of flame at location of loop-player with offset vector(0.5, 1, 0.5) with extra 0.1
+                    wait 0.25 seconds
+                make 500 of flame at location of loop-player with offset vector(0.5, 1, 0.5) with extra 0.1
+                make 500 of soul_fire_flame at location of loop-player with offset vector(0.5, 1, 0.5) with extra 0.1
+                make 500 of end_rod at location of loop-player with offset vector(0.5, 1, 0.5) with extra 0.1
+
         if {kill_co_100.%loop-player%} = 1:
-            execute console command "execute as %loop-player% at @s run particle minecraft:flame ~ ~2.5 ~ 0 0 0 0 5"
+
+            set {_locx} to x-position of loop-player
+            set {_locy} to y-position of loop-player
+            set {_locz} to z-position of loop-player
+
+            set {_locy} to {_locy}+2.5
+
+            set {_locf} to location at ({_locx}, {_locy}, {_locz}) in world "sb%loop-player%" parsed as world
+
+            make 5 flame at {_locf}
